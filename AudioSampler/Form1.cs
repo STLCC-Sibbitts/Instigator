@@ -25,10 +25,13 @@ namespace AudioSampler
         private Image imgPadYellow = AudioSampler.Properties.Resources.Yellow_Pad;
         private Image imgUpArrow = AudioSampler.Properties.Resources.TogglePanelButtonUp;
         private Image imgDownArrow = AudioSampler.Properties.Resources.TogglePanelButtonDown;
+        
+       private List<Pad> PadList = new List<Pad>();  //some functions might be easy with a foreach of all the pads
 
         public formSampler()
         {
             InitializeComponent();
+
             CollapsePanel();
         }
 
