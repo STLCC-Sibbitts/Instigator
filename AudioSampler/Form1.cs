@@ -16,14 +16,9 @@ namespace AudioSampler
         //constants
         private const int COLLAPSED_HEIGHT = 510;               //required to shift expand/collapse bar
         private const int EXPANDED_HEIGHT = 784;                //
-        //private const int SPLITTER_DISTANCE_COLLAPSED = 460;    //
-        //private const int SPLITTER_DISTANCE_EXPANDED = 430;     //   ^ same
-        //private readonly Point TOGGLE_LOCATION_UP = new Point(0,430);
-        //private readonly Point TOGGLE_LOCATION_DOWN = new Point(0,460);
-        //private const int SPLIT_PANEL_HEIGHT_COLLAPSED = 721;   //
-        //private const int SPLIT_PANEL_HEIGHT_EXPANDED = 690;    //
 
-        private BackgroundWorker backgroundWorker1;
+        delegate void SetPictureBoxImageCallBack(PictureBox pBox, Image img); //need these for multithreading
+        delegate void OutputTextCallBack(string text);
         
         private bool isPanelExpanded;
         private Image imgPadBlack = AudioSampler.Properties.Resources.Black_Pad;
@@ -58,21 +53,35 @@ namespace AudioSampler
         {
             this.Height = COLLAPSED_HEIGHT;
             pictureBoxExpand.Image = imgDownArrow;
-           // pictureBoxExpand.Location = TOGGLE_LOCATION_UP;
             splitContainer1.Panel2Collapsed = true;
-            //splitContainer1.SplitterDistance = SPLITTER_DISTANCE_COLLAPSED;
-            //splitContainer1.Height = SPLIT_PANEL_HEIGHT_COLLAPSED;
             isPanelExpanded = false;
         }
         private void ExpandPanel()
         {
             this.Height = EXPANDED_HEIGHT;
             splitContainer1.Panel2Collapsed = false;
-            //splitContainer1.SplitterDistance = SPLITTER_DISTANCE_EXPANDED;
-            //splitContainer1.Height = SPLIT_PANEL_HEIGHT_EXPANDED;
             pictureBoxExpand.Image = imgUpArrow;
-            //pictureBoxExpand.Location = TOGGLE_LOCATION_DOWN;
             isPanelExpanded = true;
+        }
+        private void SetPictureBoxImage(PictureBox pBox, Image img)
+        {
+           // InvokeRequired required compares the thread ID of
+           // the calling thread to the thread ID of the 
+           // creating thread.  If these threads are different, 
+           // it returns true
+           if (pBox.InvokeRequired)
+           {  
+              //basically, if the PictureBox (pBox) that is trying to be altered 
+              //was created in a different thread than the one calling this method,
+              //we make a clone of this method...  (using the previously declared delegate object)
+              SetPictureBoxImageCallBack d = new SetPictureBoxImageCallBack(SetPictureBoxImage);
+              //and have the original thread call our cloned method so it can execute safely
+              this.Invoke(d, new object[] { pBox, img });
+           }
+           else
+           {
+              pBox.Image = img;
+           }
         }
 
 
@@ -89,20 +98,15 @@ namespace AudioSampler
             OutputTextLine(activatedPad.Name+" activated");
 
             //make a new thread for the playback, ...complicated stuff
-            //Thread padThread = new Thread(() => PlayPad(activatedPad));
-            //padThread.Start();
-            PlayPad(activatedPad);
-            
+            Thread padThread = new Thread(() => PlayPad(activatedPad));
+            padThread.Start();            
         }
 
         private void PlayPad(PictureBox padButton)
         {
-            padButton.Image = imgPadYellow;
-            padButton.Refresh();
-            //sound output etc goes here
-            Thread.Sleep(500);
-            padButton.Image = imgPadBlack;
-            padButton.Refresh();
+           SetPictureBoxImage(padButton, imgPadYellow);
+            Thread.Sleep(500); //sleep for testing purposes ONLY
+            SetPictureBoxImage(padButton, imgPadBlack);
             OutputTextLine("Done playing " + padButton.Name);
         }
 
@@ -118,7 +122,15 @@ namespace AudioSampler
         }
         private void OutputText(string newText)
         {
-            txtBoxDebug.AppendText(LocalizeText(newText));
+           if (this.txtBoxDebug.InvokeRequired)
+           {
+              OutputTextCallBack ot = new OutputTextCallBack(OutputText);
+              this.Invoke(ot, new object[] { newText });
+           }
+           else
+           {
+              txtBoxDebug.AppendText(LocalizeText(newText));
+           }
         }
         private void OutputTextLine(string newLine)
         {
