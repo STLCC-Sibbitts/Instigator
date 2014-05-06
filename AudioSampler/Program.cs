@@ -16,7 +16,7 @@ namespace AudioSampler
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new formSampler());
+            Application.Run(new FormSampler());
         }
     }
 }

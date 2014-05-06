@@ -9,11 +9,38 @@ namespace AudioSampler
 {
    class Pad : PictureBox //we can have it inherit the picturebox class
       //I've modified the Form1.designer.cs so that these will be created in lieu of regular pictureboxes
-      //as such, it gives a nasty warning going into design view, but should function perfectly.
+      //as such, it gives a nasty warning going into design view, but should function perfectly fine
    {
       //general properties
-      public OpenFileDialog sampleLoadFileDialog { get; set; }
-      public string sampleFilePath { get; set; }
+	   private string pathToSample = "";
+      private OpenFileDialog dialogOfSample = new OpenFileDialog();
+	  
+      public string SamplePath
+      {
+         get
+         {
+            return this.pathToSample;
+         }
+         set
+         {
+            //validate data here
+			   pathToSample = value;
+            isLoaded = true;
+         }
+      }
+      public OpenFileDialog Dialog 
+      {
+         get
+         {
+            return dialogOfSample;
+         }
+         set
+         {
+            dialogOfSample = value;
+         }
+      }
+
+
       public char keyShortCut { get; set; }
       public bool isLoaded { get; set; }
 
@@ -48,6 +75,7 @@ namespace AudioSampler
 
       public Pad()  //empty constructor, we'll set keyShortCut later
       {
+         
          this.isLoaded = false;
          this.isEchoing = false;
          this.isOverdriving = false;

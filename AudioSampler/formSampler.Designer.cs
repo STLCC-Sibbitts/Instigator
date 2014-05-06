@@ -1,6 +1,8 @@
-﻿namespace AudioSampler
+﻿using AudioSampler;
+
+namespace AudioSampler
 {
-    partial class formSampler
+    partial class FormSampler
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +31,13 @@
         private void InitializeComponent()
         {
          this.components = new System.ComponentModel.Container();
-         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formSampler));
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSampler));
          this.panelPads = new System.Windows.Forms.Panel();
          this.pad3 = new AudioSampler.Pad();
+         this.padContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+         this.loadSampleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.editEffectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.assignKeyTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.pad6 = new AudioSampler.Pad();
          this.pad9 = new AudioSampler.Pad();
          this.pad2 = new AudioSampler.Pad();
@@ -62,12 +68,9 @@
          this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.padContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-         this.loadSampleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.editEffectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.assignKeyTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.panelPads.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pad3)).BeginInit();
+         this.padContextMenuStrip.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pad6)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.pad9)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.pad2)).BeginInit();
@@ -86,7 +89,6 @@
          this.effect2Panel.SuspendLayout();
          this.effect1Panel.SuspendLayout();
          this.menuStrip1.SuspendLayout();
-         this.padContextMenuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
          // panelPads
@@ -133,12 +135,40 @@
          this.pad3.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad3.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad3.Name = "pad3";
-         this.pad3.sampleLoadFileDialog = null;
+         this.pad3.SamplePath = null;
          this.pad3.Size = new System.Drawing.Size(114, 114);
          this.pad3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad3.TabIndex = 0;
          this.pad3.TabStop = false;
          this.pad3.Click += new System.EventHandler(this.pad_Activated);
+         // 
+         // padContextMenuStrip
+         // 
+         this.padContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadSampleToolStripMenuItem,
+            this.editEffectsToolStripMenuItem,
+            this.assignKeyTriggerToolStripMenuItem});
+         this.padContextMenuStrip.Name = "padContextMenuStrip";
+         this.padContextMenuStrip.Size = new System.Drawing.Size(170, 92);
+         // 
+         // loadSampleToolStripMenuItem
+         // 
+         this.loadSampleToolStripMenuItem.Name = "loadSampleToolStripMenuItem";
+         this.loadSampleToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+         this.loadSampleToolStripMenuItem.Text = "Load Sample";
+         this.loadSampleToolStripMenuItem.Click += new System.EventHandler(this.loadSampleToolStripMenuItem_Click);
+         // 
+         // editEffectsToolStripMenuItem
+         // 
+         this.editEffectsToolStripMenuItem.Name = "editEffectsToolStripMenuItem";
+         this.editEffectsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+         this.editEffectsToolStripMenuItem.Text = "Edit Effects";
+         // 
+         // assignKeyTriggerToolStripMenuItem
+         // 
+         this.assignKeyTriggerToolStripMenuItem.Name = "assignKeyTriggerToolStripMenuItem";
+         this.assignKeyTriggerToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+         this.assignKeyTriggerToolStripMenuItem.Text = "Assign KeyTrigger";
          // 
          // pad6
          // 
@@ -164,7 +194,7 @@
          this.pad6.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad6.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad6.Name = "pad6";
-         this.pad6.sampleLoadFileDialog = null;
+         this.pad6.SamplePath = null;
          this.pad6.Size = new System.Drawing.Size(114, 114);
          this.pad6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad6.TabIndex = 0;
@@ -195,7 +225,7 @@
          this.pad9.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad9.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad9.Name = "pad9";
-         this.pad9.sampleLoadFileDialog = null;
+         this.pad9.SamplePath = null;
          this.pad9.Size = new System.Drawing.Size(114, 114);
          this.pad9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad9.TabIndex = 0;
@@ -226,7 +256,7 @@
          this.pad2.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad2.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad2.Name = "pad2";
-         this.pad2.sampleLoadFileDialog = null;
+         this.pad2.SamplePath = null;
          this.pad2.Size = new System.Drawing.Size(114, 114);
          this.pad2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad2.TabIndex = 0;
@@ -257,7 +287,7 @@
          this.pad5.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad5.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad5.Name = "pad5";
-         this.pad5.sampleLoadFileDialog = null;
+         this.pad5.SamplePath = null;
          this.pad5.Size = new System.Drawing.Size(114, 114);
          this.pad5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad5.TabIndex = 0;
@@ -288,7 +318,7 @@
          this.pad8.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad8.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad8.Name = "pad8";
-         this.pad8.sampleLoadFileDialog = null;
+         this.pad8.SamplePath = null;
          this.pad8.Size = new System.Drawing.Size(114, 114);
          this.pad8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad8.TabIndex = 0;
@@ -319,7 +349,7 @@
          this.pad1.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad1.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad1.Name = "pad1";
-         this.pad1.sampleLoadFileDialog = null;
+         this.pad1.SamplePath = null;
          this.pad1.Size = new System.Drawing.Size(114, 114);
          this.pad1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad1.TabIndex = 0;
@@ -350,7 +380,7 @@
          this.pad4.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad4.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad4.Name = "pad4";
-         this.pad4.sampleLoadFileDialog = null;
+         this.pad4.SamplePath = null;
          this.pad4.Size = new System.Drawing.Size(114, 114);
          this.pad4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad4.TabIndex = 0;
@@ -381,7 +411,7 @@
          this.pad7.MaximumSize = new System.Drawing.Size(114, 114);
          this.pad7.MinimumSize = new System.Drawing.Size(114, 114);
          this.pad7.Name = "pad7";
-         this.pad7.sampleLoadFileDialog = null;
+         this.pad7.SamplePath = null;
          this.pad7.Size = new System.Drawing.Size(114, 114);
          this.pad7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
          this.pad7.TabIndex = 0;
@@ -601,7 +631,6 @@
          this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
          this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
          this.loadToolStripMenuItem.Text = "&Load";
-         this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
          // 
          // exitToolStripMenuItem
          // 
@@ -616,34 +645,7 @@
          this.saveToolStripMenuItem.Text = "&Save";
          this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
          // 
-         // padContextMenuStrip
-         // 
-         this.padContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadSampleToolStripMenuItem,
-            this.editEffectsToolStripMenuItem,
-            this.assignKeyTriggerToolStripMenuItem});
-         this.padContextMenuStrip.Name = "padContextMenuStrip";
-         this.padContextMenuStrip.Size = new System.Drawing.Size(170, 70);
-         // 
-         // loadSampleToolStripMenuItem
-         // 
-         this.loadSampleToolStripMenuItem.Name = "loadSampleToolStripMenuItem";
-         this.loadSampleToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-         this.loadSampleToolStripMenuItem.Text = "Load Sample";
-         // 
-         // editEffectsToolStripMenuItem
-         // 
-         this.editEffectsToolStripMenuItem.Name = "editEffectsToolStripMenuItem";
-         this.editEffectsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-         this.editEffectsToolStripMenuItem.Text = "Edit Effects";
-         // 
-         // assignKeyTriggerToolStripMenuItem
-         // 
-         this.assignKeyTriggerToolStripMenuItem.Name = "assignKeyTriggerToolStripMenuItem";
-         this.assignKeyTriggerToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-         this.assignKeyTriggerToolStripMenuItem.Text = "Assign KeyTrigger";
-         // 
-         // formSampler
+         // FormSampler
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -655,11 +657,12 @@
          this.MaximizeBox = false;
          this.MaximumSize = new System.Drawing.Size(763, 784);
          this.MinimumSize = new System.Drawing.Size(763, 510);
-         this.Name = "formSampler";
+         this.Name = "FormSampler";
          this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
          this.Text = "Instigator Sampler and Effects Processor";
          this.panelPads.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.pad3)).EndInit();
+         this.padContextMenuStrip.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.pad6)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pad9)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pad2)).EndInit();
@@ -685,7 +688,6 @@
          this.effect1Panel.PerformLayout();
          this.menuStrip1.ResumeLayout(false);
          this.menuStrip1.PerformLayout();
-         this.padContextMenuStrip.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
 
