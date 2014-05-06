@@ -22,6 +22,8 @@ namespace AudioSampler
         //private readonly Point TOGGLE_LOCATION_DOWN = new Point(0,460);
         //private const int SPLIT_PANEL_HEIGHT_COLLAPSED = 721;   //
         //private const int SPLIT_PANEL_HEIGHT_EXPANDED = 690;    //
+
+        private BackgroundWorker backgroundWorker1;
         
         private bool isPanelExpanded;
         private Image imgPadBlack = AudioSampler.Properties.Resources.Black_Pad;
