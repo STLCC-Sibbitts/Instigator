@@ -155,6 +155,7 @@ namespace AudioSampler
 
         private void PlayPad(Pad padButton)
         {
+           //demonstration
            SetPictureBoxImage(padButton, imgPadYellow);
            //player.playSample(padButton);
            if (!player.LogMessage.Equals(""))
