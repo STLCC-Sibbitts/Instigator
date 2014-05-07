@@ -8,8 +8,6 @@ using System.Windows.Forms;
 namespace AudioSampler
 {
    class Pad : PictureBox //we can have it inherit the picturebox class
-      //I've modified the Form1.designer.cs so that these will be created in lieu of regular pictureboxes
-      //as such, it gives a nasty warning going into design view, but should function perfectly fine
    {
       //general properties
 	   private string pathToSample = "";
@@ -75,12 +73,34 @@ namespace AudioSampler
 
       public Pad()  //empty constructor, we'll set keyShortCut later
       {
-         
-         this.isLoaded = false;
-         this.isEchoing = false;
-         this.isOverdriving = false;
+         this.chorusDelay = 0D;
+         this.chorusDepth = 0D;
+         this.chorusLevel = 0D;
+         this.driveSetting = 0D;
+         this.echoCount = 0;
+         this.echoDelay = 0;
+         this.echoFactor = 0F;
+         this.frequency = 0D;
+         this.Image = global::AudioSampler.Properties.Resources.Black_Pad;
+         this.InitialImage = null;
          this.isChorusing = false;
+         this.isEchoing = false;
+         this.isLoaded = false;
+         this.isLowPass = false;
+         this.isOverdriving = false;
          this.isPassing = false;
+         this.keyShortCut = '\0';
+         //this.Location = new System.Drawing.Point(9, 6);
+         this.MaximumSize = new System.Drawing.Size(114, 114);
+         this.MinimumSize = new System.Drawing.Size(114, 114);
+         //this.Name = "pad7";
+         this.SamplePath = null;
+         this.Size = new System.Drawing.Size(114, 114);
+         this.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+         this.TabIndex = 0;
+         this.TabStop = false;
+         //this.pad7.Click += new System.EventHandler(this.pad_Activated);
+         //this.ContextMenuStrip = this.padContextMenuStrip;
       }
    }
 }

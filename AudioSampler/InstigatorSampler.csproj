@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Echo.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="FilterStream.cs" />
     <Compile Include="FormSampler.cs">
