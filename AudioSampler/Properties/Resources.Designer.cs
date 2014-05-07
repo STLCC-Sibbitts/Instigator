@@ -73,6 +73,26 @@ namespace AudioSampler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DisplayBackgroundCollapsed {
+            get {
+                object obj = ResourceManager.GetObject("DisplayBackgroundCollapsed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FXBoxBackground {
+            get {
+                object obj = ResourceManager.GetObject("FXBoxBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TogglePanelButtonDown {
             get {
                 object obj = ResourceManager.GetObject("TogglePanelButtonDown", resourceCulture);

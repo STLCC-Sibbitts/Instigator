@@ -69,6 +69,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -98,6 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TogglePanelButtonUp.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DisplayBackgroundCollapsed.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FXBoxBackground.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
