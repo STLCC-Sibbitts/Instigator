@@ -155,6 +155,7 @@ namespace AudioSampler
 
         private void PlayPad(Pad padButton)
         {
+           //demonstration
            SetPictureBoxImage(padButton, imgPadYellow);
            int x;
             x = padButton.currentFilter;
