@@ -56,6 +56,7 @@
     <Compile Include="FormSampler.Designer.cs">
       <DependentUpon>FormSampler.cs</DependentUpon>
     </Compile>
+    <Compile Include="Input.cs" />
     <Compile Include="Pad.cs">
       <SubType>Component</SubType>
     </Compile>

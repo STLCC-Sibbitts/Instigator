@@ -43,6 +43,9 @@ namespace AudioSampler
       public Keys keyShortCut { get; set; }
       public bool isLoaded { get; set; }
 
+       //this should be updated by the form anytime an attribute is changed
+      public bool parametersChanged { get; set; }
+
       //properties for echo filter
       public bool isEchoing { get; set; }
       public int echoDelay { get; set; }
@@ -68,6 +71,7 @@ namespace AudioSampler
       public Pad(Keys key)
       {
           this.keyShortCut = key;
+         
          //start with filters off:
       }
 
