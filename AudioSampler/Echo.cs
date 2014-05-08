@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AudioSampler
+namespace AudioSampler.Filters
+
 {
-   class Echo
+   class Echo:Filter
    {
       public int EchoDelay { get; private set; }
 

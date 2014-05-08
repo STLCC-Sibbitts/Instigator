@@ -23,7 +23,7 @@ namespace AudioSampler
          {
             //validate data here
 			   pathToSample = value;
-            isLoaded = true;
+           
          }
       }
       public OpenFileDialog Dialog 
@@ -35,11 +35,12 @@ namespace AudioSampler
          set
          {
             dialogOfSample = value;
+            isLoaded = true; //instantiated as false in Pad constructor and turned on when file loaded
          }
       }
 
-
-      public char keyShortCut { get; set; }
+      public int currentFilter { get; set; }  //set use of one filter at a time
+      public Keys keyShortCut { get; set; }
       public bool isLoaded { get; set; }
 
       //properties for echo filter
@@ -66,13 +67,13 @@ namespace AudioSampler
       //constructor for pad 
       public Pad(Keys key)
       {
-         this.keyShortCut = Convert.ToChar(key);
-
+          this.keyShortCut = key;
          //start with filters off:
       }
 
       public Pad()  //empty constructor, we'll set keyShortCut later
       {
+          this.currentFilter = 0;//no filter being used to start
          this.chorusDelay = 0D;
          this.chorusDepth = 0D;
          this.chorusLevel = 0D;
@@ -89,7 +90,7 @@ namespace AudioSampler
          this.isLowPass = false;
          this.isOverdriving = false;
          this.isPassing = false;
-         this.keyShortCut = '\0';
+         this.keyShortCut = Keys.None;
          //this.Location = new System.Drawing.Point(9, 6);
          this.MaximumSize = new System.Drawing.Size(114, 114);
          this.MinimumSize = new System.Drawing.Size(114, 114);

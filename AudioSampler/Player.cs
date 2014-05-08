@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿using AudioSampler.Filters;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,8 @@ namespace AudioSampler
       */
       public void playSample(Pad pad)
       {
-         if (pad.Dialog.FileName != null)
+        
+         if (pad.isLoaded)
          {
             waveFile = new WaveFileReader(pad.Dialog.FileName);
             LogMessage += "waveFile created" + waveFile.ToString()+"\n";
@@ -63,6 +65,10 @@ namespace AudioSampler
                   output.Play();
                   LogMessage += "No filter.\n";
                }
+
+
+/*       /// //FOLLOWING ECHO METHODOLOGY MOVED TO SEPERATE PLAY FLOW (see below)
+
                //if echo button was pressed addFilter is true so we use FilterStream to add echo filter
                if (addFilter != false)
                {
@@ -82,17 +88,68 @@ namespace AudioSampler
                   filterOutput.Play();
 
                }
+ */   
+            
             }
+
+
             else
             {
                LogMessage += "The dialog was null...";
             }
-            //probably don't want to continually dispose of the file for a sampler,
-            //better to keep it in memory somehow
-            DisposeWave();
-            DisposeWave();  //dispose of this if effect params change
+           
+             
+             //probably don't want to continually dispose of the file for a sampler,
+             //better to keep it in memory somehow
+
+             //    You're right these were stopping the playing of the sound before it could play -- now it plays
+             //    DisposeWave();
+             //    DisposeWave();  //dispose of this if effect params change
          }
       }
+
+
+       //
+       // Different playSamp flow for each filter:
+       //
+       public void playSampEcho(Pad pad)
+       {
+         if (pad.isLoaded)
+         {
+            waveFile = new WaveFileReader(pad.Dialog.FileName);
+            LogMessage += "waveFile created" + waveFile.ToString()+"\n";
+            if (waveFile != null)
+            {
+               output = new DirectSoundOut();
+               output.Init(new WaveChannel32(waveFile));
+              
+               LogMessage += "Got past output creation\n";
+               LogMessage = output.ToString()+"\n";
+
+                // WaveCHannel32 guarenties 32bit floating point for filtering
+                WaveChannel32 wave3 = new WaveChannel32(new WaveFileReader(pad.SamplePath));
+
+                //use filterstream to break stream apart
+                FilterStream delayedFilter = new FilterStream(wave3);
+
+                stream = new BlockAlignReductionStream(delayedFilter);
+
+                  //apply a filter - make sure there is an effect assigned to each channel
+                  for (int i = 0; i < waveFile.WaveFormat.Channels; i++)
+                    delayedFilter.filters.Add(new Echo(pad.echoDelay,pad.echoFactor));
+
+                     filterOutput = new DirectSoundOut(200);
+                  filterOutput.Init(stream);
+                  filterOutput.Play();
+
+               }
+
+
+
+
+            }
+         }
+
 
       //public void stopRecording()
       //{

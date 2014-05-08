@@ -360,7 +360,7 @@ namespace AudioSampler
          this.pad3.isLowPass = false;
          this.pad3.isOverdriving = false;
          this.pad3.isPassing = false;
-         this.pad3.keyShortCut = '\0';
+         this.pad3.keyShortCut = System.Windows.Forms.Keys.None;
          this.pad3.Location = new System.Drawing.Point(0, 0);
          this.pad3.Name = "pad3";
          this.pad3.SamplePath = "";

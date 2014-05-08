@@ -156,7 +156,27 @@ namespace AudioSampler
         private void PlayPad(Pad padButton)
         {
            SetPictureBoxImage(padButton, imgPadYellow);
-           //player.playSample(padButton);
+           int x;
+            x = padButton.currentFilter;
+
+            //switch to control which playing flow is used(different for filter/no filter
+            switch (x)
+            {
+                case 0:
+                    player.playSample(padButton);
+                    break;
+                case 1:  // pad.currentFilter = 1 for echo
+                    player.playSampEcho(padButton);
+                    break;
+                default:
+                    break;
+            }
+
+
+
+
+
+           
            if (!player.LogMessage.Equals(""))
            {
               OutputTextLine(player.LogMessage);
