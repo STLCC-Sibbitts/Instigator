@@ -38,8 +38,8 @@ namespace AudioSampler
             isLoaded = true; //instantiated as false in Pad constructor and turned on when file loaded
          }
       }
-
-      public int currentFilter { get; set; }  //set use of one filter at a time
+        //ALL OF THESE PARAMETERS NEED DATA VALIDATION!
+      public int currentFilter { get; set; }  //set use of one filter at a time, in the future, multiple effects can be selected
       public Keys keyShortCut { get; set; }
       public bool isLoaded { get; set; }
 
@@ -49,8 +49,8 @@ namespace AudioSampler
       //properties for echo filter
       public bool isEchoing { get; set; }
       public int echoDelay { get; set; }
-      public float echoFactor { get; set; }
-      public int echoCount { get; set; }
+      public float echoFactor { get; set; }  //description?
+      public int echoCount { get; set; }   //number of times it will echo?
 
       //properties for overdrive
       public bool isOverdriving { get; set; }
@@ -91,7 +91,7 @@ namespace AudioSampler
          this.isChorusing = false;
          this.isEchoing = false;
          this.isLoaded = false;
-         this.isLowPass = false;
+         this.isLowPass = true;  //Low-pass is more common, use as default
          this.isOverdriving = false;
          this.isPassing = false;
          this.keyShortCut = Keys.None;

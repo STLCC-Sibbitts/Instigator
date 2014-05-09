@@ -69,6 +69,7 @@ namespace AudioSampler
            InitializePads();
            InitializePlayers();
            CollapsePanel();
+           LoadEffectsPanels();
         }
 
         //////////////////////////////////////////////////////////////////
@@ -103,7 +104,89 @@ namespace AudioSampler
             //stop playback, dispose of players and associated objects
             //dispose of form
         }
+        private void fx1OnCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (fx1OnCheckBox.Checked) 
+                //need to make sure the check came from a user event, 
+                //not from changing the selected pad
+            {
+                //TODO:disable other effects... for current single-effect functionality
 
+                //set the selected pads effect
+                selectedPad.parametersChanged = true;
+                selectedPad.currentFilter = 1;
+                selectedPad.isEchoing = true;
+                OutputTextLine("Echo enabled");
+            }
+            else
+            {
+                selectedPad.isEchoing = false;
+                OutputTextLine("Echo disabled");
+                //TODO: Check if other text boxes are enabled, otherwise reset currentFilter to 0;
+                selectedPad.currentFilter = 0;
+            }
+            OutputTextLine("currentFilter = " + selectedPad.currentFilter.ToString());
+        }
+        private void btnEcho_Click(object sender, EventArgs e)
+        {
+            //TODO: Need to validate data either here or in pad, pad-side validation preferred
+            try
+            {
+                selectedPad.parametersChanged = true;
+                selectedPad.echoCount = Convert.ToInt32(txtBoxEchoCount.Text);
+                selectedPad.echoDelay = Convert.ToInt32(txtBoxEchoDelay.Text);
+                selectedPad.echoFactor = (float)Convert.ToDouble(txtBoxEchoFactor.Text);
+                btnEcho.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                OutputTextLine("Couldn't apply settings: " + ex.Message);
+            }
+        }
+
+        private void btnChorus_Click(object sender, EventArgs e)
+        {
+            //TODO: Need to validate data either here or in pad, pad-side validation preferred
+            try
+            {
+                selectedPad.parametersChanged = true;
+                selectedPad.chorusDelay = Convert.ToInt32(txtBoxChorusDelay.Text);
+                selectedPad.chorusDepth = Convert.ToInt32(txtBoxChorusDepth.Text);
+                selectedPad.chorusLevel = Convert.ToDouble(txtBoxChorusLevel.Text);
+                btnChorus.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                OutputTextLine("Couldn't apply settings: " + ex.Message);
+            }
+        }
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                selectedPad.parametersChanged = true;
+                selectedPad.frequency = Convert.ToInt32(txtBoxFilterFrequency.Text);
+                selectedPad.isLowPass = rbtnFilterLP.Checked;
+                btnFilter.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                OutputTextLine("Couldn't apply settings: " + ex.Message);
+            }
+        }
+        private void btnDrive_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                selectedPad.parametersChanged = true;
+                selectedPad.driveSetting = Convert.ToInt32(txtBoxFilterFrequency.Text);
+                btnDrive.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                OutputTextLine("Couldn't apply settings: " + ex.Message);
+            }
+        }
         //////////////////////////////////////////////////////////////////
         //  Visual methods
         // 
@@ -212,13 +295,43 @@ namespace AudioSampler
                 //reassign selection
                 selectedPad = tempPad;
                 SetPictureBoxImage(selectedPad, imgPadBlackSelected);
-
-                //re-fill effects parameters
-
+                LoadEffectsPanels();
             }
 
             //now we send the trigger along
             pad_Activated(sender, e);
+        }
+        //////////////////////////////////////////////////////////////////
+        // Loads the effects panels with appropriate data from global selectedPad
+        //////////////////////////////////////////////////////////////////
+        private void LoadEffectsPanels()
+        {
+            //re-fill effects parameters
+            //echo
+            fx1OnCheckBox.Checked = selectedPad.isEchoing;
+            txtBoxEchoCount.Text = selectedPad.echoCount.ToString();
+            txtBoxEchoDelay.Text = selectedPad.echoDelay.ToString();
+            txtBoxEchoFactor.Text = selectedPad.echoFactor.ToString();
+            btnEcho.Enabled = false;
+
+            //chorus
+            fx2OnCheckBox.Checked = selectedPad.isChorusing;
+            txtBoxChorusDelay.Text = selectedPad.chorusDelay.ToString();
+            txtBoxChorusDepth.Text = selectedPad.chorusDepth.ToString();
+            txtBoxChorusLevel.Text = selectedPad.chorusLevel.ToString();
+            btnChorus.Enabled = false;
+
+            //filter
+            fx3OnCheckBox.Checked = selectedPad.isPassing;
+            txtBoxFilterFrequency.Text = selectedPad.frequency.ToString();
+            rbtnFilterLP.Checked = selectedPad.isLowPass;
+            rbtnFilterHP.Checked = !selectedPad.isLowPass;
+            btnFilter.Enabled = false;
+
+            //drive
+            fx4OnCheckBox.Checked = selectedPad.isOverdriving;
+            txtBoxDriveAmount.Text = selectedPad.driveSetting.ToString(); //this may not be correct
+            btnDrive.Enabled = false;
         }
 
         //this method is called any time the pad is triggered
@@ -434,7 +547,7 @@ namespace AudioSampler
             this.pad7.Click += new System.EventHandler(this.pad_Clicked);
 
             this.selectedPad = this.pad1;  //default selection
-            SetPictureBoxImage(selectedPad, imgPadBlackSelected);            
+            SetPictureBoxImage(selectedPad, imgPadBlackSelected);
          }
 
 
@@ -463,6 +576,24 @@ namespace AudioSampler
             this.player8,
             this.player9
             };
+        }
+        //if any of the parameter values change, enable the apply button
+        //(visually reminds user that they haven't saved the changes
+        private void Echo_ParamsChanged(object sender, EventArgs e)
+        {
+            btnEcho.Enabled = true;
+        }
+        private void Chorus_ParamsChanged(object sender, EventArgs e)
+        {
+            btnChorus.Enabled = true;
+        }
+        private void Filter_ParamsChanged(object sender, EventArgs e)
+        {
+            btnFilter.Enabled = true;
+        }
+        private void Drive_ParamsChanged(object sender, EventArgs e)
+        {
+            btnDrive.Enabled = true;
         }
 
     }

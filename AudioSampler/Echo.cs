@@ -15,8 +15,10 @@ namespace AudioSampler.Filters
 
         public Echo(int length = 20000, float factor = 0.5f)
         {
+            //TODO: Check if not null
             this.EchoDelay = length;
             this.EchoFactor = factor;
+            //TODO: Implement echofactor (decay)
             this.samples = new Queue<float>();
 
             for (int i=0; i<length; i++)
