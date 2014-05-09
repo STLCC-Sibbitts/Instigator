@@ -239,8 +239,9 @@ namespace AudioSampler
            do 
            {
               Thread.Sleep(50);
-           } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 100);
-           
+           } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 50);
+           OutputTextLine("IsPlaying = "+GetPlayer(padButton).IsPlaying.ToString());
+           OutputTextLine("Escape counter value: "+escapeCounter);
             SetPictureBoxImage(padButton, imgPadBlack);
             OutputTextLine("Done playing " + padButton.Name);
             //the player built the proper waveforms and outputs, so this can be reset

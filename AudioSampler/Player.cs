@@ -51,7 +51,8 @@ namespace AudioSampler
       public void playSample(ref Pad pad)
       {
 
-          if (pad.parametersChanged || !isOutputBuilt)  //if settings have changed, rebuild output
+          LogMessage = "";
+          if (pad.parametersChanged || !isOutputBuilt)//if settings have changed, rebuild output
           {
               if (pad.isLoaded)
               {
@@ -95,8 +96,9 @@ namespace AudioSampler
                   //    DisposeWave();  //dispose of this if effect params change
               }
           }
-          else  //program never gets here... why?
+          else
           {
+              LogMessage += "Output already built\n";
               waveFile.CurrentTime = TimeSpan.Zero;
               output.Play();
           }
