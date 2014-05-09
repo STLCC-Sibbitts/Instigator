@@ -210,7 +210,7 @@ namespace AudioSampler
             padThread.Start();            
         }
 
-        private void PlayPad(ref Pad padButton)
+        private void PlayPad(ref Pad padButton)   //ISSUE: After loading a sample for the first time,
         {
            int escapeCounter = 0;
            SetPictureBoxImage(padButton, imgPadYellow);
@@ -238,8 +238,8 @@ namespace AudioSampler
             //wait until the player is done before changing color back
            do 
            {
-              Thread.Sleep(50);
-           } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 50);
+              Thread.Sleep(20);
+           } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 1000);
            OutputTextLine("IsPlaying = "+GetPlayer(padButton).IsPlaying.ToString());
            OutputTextLine("Escape counter value: "+escapeCounter);
             SetPictureBoxImage(padButton, imgPadBlack);

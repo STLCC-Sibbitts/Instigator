@@ -31,8 +31,6 @@ namespace AudioSampler
             {
                if (output.PlaybackState == PlaybackState.Playing)
                   return true;
-            //else if (filterOutput.PlaybackState == PlaybackState.Playing)
-            //   return true;
                else
                   return false;
             }
@@ -61,9 +59,10 @@ namespace AudioSampler
 
                   if (this.waveFile != null)
                   {
-                      this.output = new DirectSoundOut();
-                      this.waveChannel = new WaveChannel32(waveFile);
-                      this.output.Init(waveChannel);
+                      output = new DirectSoundOut(50);  //latency of 50ms
+                      waveChannel = new WaveChannel32(waveFile);
+                      waveChannel.PadWithZeroes = false;  //this fixed the issue where the stop event was never called!
+                      output.Init(waveChannel);
 
                       LogMessage += "Got past output creation\n";
                       LogMessage += output.ToString() + "\n";
@@ -72,7 +71,6 @@ namespace AudioSampler
                       {
                           case 0:
                               //play sample without effects
-                              //output.Play();  //redundant output.Play() calls... is this necessary?
                               waveFile.CurrentTime = TimeSpan.Zero;
                               //output.Play();
                               LogMessage += "No filter.\n";
