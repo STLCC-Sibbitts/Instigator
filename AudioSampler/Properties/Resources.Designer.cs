@@ -73,6 +73,16 @@ namespace AudioSampler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Black_Pad_Selected {
+            get {
+                object obj = ResourceManager.GetObject("Black_Pad_Selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DisplayBackgroundCollapsed {
             get {
                 object obj = ResourceManager.GetObject("DisplayBackgroundCollapsed", resourceCulture);
@@ -116,6 +126,16 @@ namespace AudioSampler.Properties {
         internal static System.Drawing.Bitmap Yellow_Pad {
             get {
                 object obj = ResourceManager.GetObject("Yellow_Pad", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Yellow_Pad_Selected {
+            get {
+                object obj = ResourceManager.GetObject("Yellow_Pad_Selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

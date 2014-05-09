@@ -46,7 +46,7 @@ namespace AudioSampler
          isOutputBuilt = false;
       }
 
-      public void playSample(ref Pad pad)
+      public void playSample(Pad pad)
       {
 
           LogMessage = "";

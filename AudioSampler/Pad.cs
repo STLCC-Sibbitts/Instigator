@@ -96,8 +96,8 @@ namespace AudioSampler
          this.isPassing = false;
          this.keyShortCut = Keys.None;
          //this.Location = new System.Drawing.Point(9, 6);
-         this.MaximumSize = new System.Drawing.Size(114, 114);
-         this.MinimumSize = new System.Drawing.Size(114, 114);
+         this.MaximumSize = new System.Drawing.Size(116, 116);
+         this.MinimumSize = new System.Drawing.Size(116, 116);
          //this.Name = "pad7";
          this.SamplePath = null;
          this.Size = new System.Drawing.Size(114, 114);

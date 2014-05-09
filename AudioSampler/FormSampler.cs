@@ -23,6 +23,8 @@ namespace AudioSampler
         private bool isPanelExpanded;
         private Image imgPadBlack = AudioSampler.Properties.Resources.Black_Pad;
         private Image imgPadYellow = AudioSampler.Properties.Resources.Yellow_Pad;
+        private Image imgPadBlackSelected = AudioSampler.Properties.Resources.Black_Pad_Selected;
+        private Image imgPadYellowSelected = AudioSampler.Properties.Resources.Yellow_Pad_Selected;
         private Image imgUpArrow = AudioSampler.Properties.Resources.TogglePanelButtonUp;
         private Image imgDownArrow = AudioSampler.Properties.Resources.TogglePanelButtonDown;
         private Pad pad1;
@@ -43,6 +45,7 @@ namespace AudioSampler
         private Player player7;
         private Player player8;
         private Player player9;
+        private Pad selectedPad;  //this is used for determining which pad is being edited
 
         private List<Player> playerList; //we'll need a player for each pad
         private List<Pad> padList;  //some functions will be easier with a foreach of all the pads
@@ -111,14 +114,12 @@ namespace AudioSampler
         {
             this.Height = COLLAPSED_HEIGHT;
             pictureBoxExpand.Image = imgDownArrow;
-            splitContainer1.Panel2Collapsed = true;
             isPanelExpanded = false;
         }
        
        private void ExpandPanel()
         {
             this.Height = EXPANDED_HEIGHT;
-            splitContainer1.Panel2Collapsed = false;
             pictureBoxExpand.Image = imgUpArrow;
             isPanelExpanded = true;
         }
@@ -198,6 +199,28 @@ namespace AudioSampler
            }
         }
 
+        //this method is called only when the pad is left-clicked,
+        //This "selects" the pad for editing
+        private void pad_Clicked(object sender, EventArgs e)
+        {
+            Pad tempPad = (Pad)sender;
+
+            if (tempPad != selectedPad) //check to make sure redraw is necessary
+            {
+                //remove outline from previous pad
+                SetPictureBoxImage(selectedPad, imgPadBlack);
+                //reassign selection
+                selectedPad = tempPad;
+                SetPictureBoxImage(selectedPad, imgPadBlackSelected);
+
+                //re-fill effects parameters
+
+            }
+
+            //now we send the trigger along
+            pad_Activated(sender, e);
+        }
+
         //this method is called any time the pad is triggered
         private void pad_Activated(object sender, EventArgs e)
         {
@@ -206,18 +229,26 @@ namespace AudioSampler
             OutputTextLine(activatedPad.Name+" activated");
 
             //make a new thread for the playback
-            Thread padThread = new Thread(() => PlayPad(ref activatedPad));
+            Thread padThread = new Thread(() => PlayPad(activatedPad));
             padThread.Start();            
         }
 
-        private void PlayPad(ref Pad padButton)   //ISSUE: After loading a sample for the first time,
+        private void PlayPad(Pad padButton)   //ISSUE: After loading a sample for the first time, the first click doesn't play back.
         {
-           int escapeCounter = 0;
-           SetPictureBoxImage(padButton, imgPadYellow);
-           //using seperate players for each button, we need to fetch the right player
-           GetPlayer(padButton).playSample(ref padButton);
+            int escapeCounter = 0;
+            if (padButton == selectedPad)  //If it has outline, we need to keep outline
+            {
+                SetPictureBoxImage(padButton, imgPadYellowSelected); 
+            }
+            else 
+            { 
+                SetPictureBoxImage(padButton, imgPadYellow); 
+            }
+            
+            //using seperate players for each button, we need to fetch the right player
+            GetPlayer(padButton).playSample(padButton);
 
-           /*  Moved filter playback logic to player class
+            /*  Moved filter playback logic to player class
             //switch to control which playing flow is used(different for filter/no filter
             switch (padButton.currentFilter)
             {
@@ -231,25 +262,32 @@ namespace AudioSampler
                     break;
             }*/
 
-           if (!GetPlayer(padButton).LogMessage.Equals(""))
-           {
-               OutputTextLine(GetPlayer(padButton).LogMessage);
-           }
+            if (!GetPlayer(padButton).LogMessage.Equals(""))
+            {
+                OutputTextLine(GetPlayer(padButton).LogMessage);
+            }
             //wait until the player is done before changing color back
-           do 
-           {
-              Thread.Sleep(20);
-           } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 1000);
-           OutputTextLine("IsPlaying = "+GetPlayer(padButton).IsPlaying.ToString());
-           OutputTextLine("Escape counter value: "+escapeCounter);
-            SetPictureBoxImage(padButton, imgPadBlack);
+            do 
+            {
+                Thread.Sleep(20);
+            } while (GetPlayer(padButton).IsPlaying && ++escapeCounter < 1000);
+            //OutputTextLine("IsPlaying = "+GetPlayer(padButton).IsPlaying.ToString());
+            //OutputTextLine("Escape counter value: "+escapeCounter);
+            if (padButton == selectedPad)  //If it has outline, we need to keep outline
+            {
+                SetPictureBoxImage(padButton, imgPadBlackSelected);
+            }
+            else
+            {
+                SetPictureBoxImage(padButton, imgPadBlack);
+            }
             OutputTextLine("Done playing " + padButton.Name);
             //the player built the proper waveforms and outputs, so this can be reset
             padButton.parametersChanged = false;
         }
 
         //////////////////////////////////////////////////////////////////
-        // Returns the player that correspondings to the pad sent as a parameter
+        // Returns the player that corresponds to the pad sent as a parameter
         // Needs a try catch in implementation for unhandled conversion exception
         //////////////////////////////////////////////////////////////////
         private Player GetPlayer(Pad pad)
@@ -345,56 +383,60 @@ namespace AudioSampler
             this.pad3.ContextMenuStrip = this.padContextMenuStrip;
             this.pad3.Location = new System.Drawing.Point(259, 256);
             this.pad3.Name = "pad3";
-            this.pad3.Click += new System.EventHandler(this.pad_Activated);
+            this.pad3.Click += new System.EventHandler(this.pad_Clicked);
          
               // pad6
             this.pad6.ContextMenuStrip = this.padContextMenuStrip;
             this.pad6.Location = new System.Drawing.Point(256, 131);
             this.pad6.Name = "pad6";
-            this.pad6.Click += new System.EventHandler(this.pad_Activated);
+            this.pad6.Click += new System.EventHandler(this.pad_Clicked);
          
             // pad9
             this.pad9.ContextMenuStrip = this.padContextMenuStrip;
             this.pad9.Location = new System.Drawing.Point(259, 6);
             this.pad9.Name = "pad9";
-            this.pad9.Click += new System.EventHandler(this.pad_Activated);
+            this.pad9.Click += new System.EventHandler(this.pad_Clicked);
          
             // pad2
             this.pad2.ContextMenuStrip = this.padContextMenuStrip;
             this.pad2.Location = new System.Drawing.Point(134, 256);
             this.pad2.Name = "pad2";
-            this.pad2.Click += new System.EventHandler(this.pad_Activated);
+            this.pad2.Click += new System.EventHandler(this.pad_Clicked);
           
             // pad5
             this.pad5.ContextMenuStrip = this.padContextMenuStrip;
             this.pad5.Location = new System.Drawing.Point(134, 131);
             this.pad5.Name = "pad5";
-            this.pad5.Click += new System.EventHandler(this.pad_Activated);
+            this.pad5.Click += new System.EventHandler(this.pad_Clicked);
           
             // pad8
             this.pad8.ContextMenuStrip = this.padContextMenuStrip;
             this.pad8.Location = new System.Drawing.Point(134, 6);
             this.pad8.Name = "pad8";
-            this.pad8.Click += new System.EventHandler(this.pad_Activated);
+            this.pad8.Click += new System.EventHandler(this.pad_Clicked);
  
             // pad1 
             this.pad1.ContextMenuStrip = this.padContextMenuStrip;
             this.pad1.Location = new System.Drawing.Point(9, 256);
             this.pad1.Name = "pad1";
-            this.pad1.Click += new System.EventHandler(this.pad_Activated);
+            this.pad1.Click += new System.EventHandler(this.pad_Clicked);
           
             // pad4
             this.pad4.ContextMenuStrip = this.padContextMenuStrip;
             this.pad4.Location = new System.Drawing.Point(9, 131);
             this.pad4.Name = "pad4";
-            this.pad4.Click += new System.EventHandler(this.pad_Activated);
+            this.pad4.Click += new System.EventHandler(this.pad_Clicked);
           
             // pad7
             this.pad7.ContextMenuStrip = this.padContextMenuStrip;
             this.pad7.Location = new System.Drawing.Point(9, 6);
-            this.pad7.Name = "pad7";      
-            this.pad7.Click += new System.EventHandler(this.pad_Activated);
+            this.pad7.Name = "pad7";
+            this.pad7.Click += new System.EventHandler(this.pad_Clicked);
+
+            this.selectedPad = this.pad1;  //default selection
+            SetPictureBoxImage(selectedPad, imgPadBlackSelected);            
          }
+
 
         private void InitializePlayers()
         {

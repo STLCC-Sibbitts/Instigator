@@ -91,12 +91,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Black Pad.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Yellow Pad.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\TogglePanelButtonDown.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +101,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FXBoxBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Black Pad.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Black Pad_Selected.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Yellow Pad.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Yellow Pad_Selected.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
