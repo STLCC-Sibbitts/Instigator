@@ -60,6 +60,7 @@
     <Compile Include="Pad.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PassFilterStream.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
